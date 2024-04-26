@@ -17,6 +17,7 @@ echo $music->title . ' - ' . $music->singer . ' - ' . $music->duration . '<br>';
 $music2 = new Music();
 $music2->title = 'UP';
 $music2->singer = 'INNA, Saul Paul';
+// $music2->duration = []; //error, karena masuk string bukan array
 $music2->duration = '00:02:28';
 // var_dump($music2);
 
