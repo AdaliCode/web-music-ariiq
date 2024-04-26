@@ -1,20 +1,11 @@
 <?php
 require '../functions.php';
-if (!isset($_GET["title"])) {
+if (!isset($_GET["id"])) {
     header("Location: ../index.php");
     exit;
 }
-
-// cek detail data
-for ($i = 0; $i < count($music_data); $i++) {
-    if ($music_data[$i]['title'] == $_GET["title"]) {
-        $music_detail = $music_data[$i];
-        break;
-    }
-}
-
-// cek jika get title tidak ada di array
-if ($i == count($music_data)) {
+$music_detail = query("SELECT * FROM music WHERE id = '{$_GET["id"]}'");
+if (empty($music_detail)) {
     header("Location: ../index.php");
     exit;
 }
@@ -26,17 +17,18 @@ if ($i == count($music_data)) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $web_name; ?> | <?= $music_detail['title']; ?></title>
+    <title><?= $web_name; ?> | <?= $music_detail[0]['title']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
     <div class="container py-5">
-        <div class="text-center">
-            <h1><?= $music_detail['title']; ?></h1>
-            <p>Penyanyi : <?= $music_detail['singer']; ?></p>
-            <p>Rilis : <?= $music_detail['release']; ?></p>
-            <a href="../index.php">Balik</a>
+        <div class="card">
+            <div class="card-body text-center">
+                <h1><?= $music_detail[0]['title']; ?></h1>
+                <p> <?= $music_detail[0]['singer']; ?> - <?= $music_detail[0]['album'] ?? $music_detail[0]['title']; ?> - <?= indo_date_format($music_detail[0]['released']); ?> - <?= date("i:s", strtotime($music_detail[0]['duration'] ?? '')); ?></p>
+                <a href="../index.php"> Balik</a>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

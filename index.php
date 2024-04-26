@@ -1,5 +1,6 @@
 <?php
 require 'functions.php';
+$music_data = query("SELECT * FROM music");
 
 ?>
 
@@ -16,16 +17,30 @@ require 'functions.php';
 <body>
     <div class="container py-5">
         <h1 class="text-center mb-3"><?= $web_name; ?></h1>
-        <?php foreach ($music_data as $key => $dvs) : ?>
-            <div class="row mb-3">
-                <div class="card border border-dark">
-                    <div class="card-body text-center">
-                        <h3><?= $dvs['title']; ?> - <?= $dvs['singer']; ?></h3>
-                        <a href="music/detail.php?title=<?= $dvs['title']; ?>">Lihat Detail</a>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Judul</th>
+                    <th scope="col">Penyanyi</th>
+                    <th scope="col">Album</th>
+                    <th scope="col">Durasi</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($music_data as $key => $dvs) : ?>
+                    <tr>
+                        <th scope="row"><?= $key + 1; ?></th>
+                        <td><?= $dvs['title']; ?></td>
+                        <td><?= $dvs['singer']; ?></td>
+                        <td><?= $dvs['album'] ?? $dvs['title']; ?></td>
+                        <td><?= date("i:s", strtotime($dvs['duration'] ?? '')); ?></td>
+                        <td><a href="music/detail.php?id=<?= $dvs['id']; ?>">Lihat Detail</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
