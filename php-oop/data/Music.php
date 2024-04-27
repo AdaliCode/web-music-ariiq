@@ -1,5 +1,7 @@
 <?php
 
+namespace Data\Music;
+
 class Music
 {
     // const harus ada value
@@ -7,15 +9,13 @@ class Music
     // propeties depannya perlu var
     var string $title;
     var string $singer;
-    var string $album;
     var ?string $released = null; // set default value null => bisa string atau null
     var string $duration = '00:03:00'; // default value
 
-    public function __construct(string $title, string $singer, string $album, ?string $released, string $duration)
+    public function __construct(string $title, string $singer, ?string $released, string $duration)
     {
         $this->title = $title;
         $this->singer = $singer;
-        $this->album = $album;
         $this->released = $released;
         $this->duration = $duration;
     }
@@ -32,8 +32,21 @@ class Music
         echo 'Author : ' . self::AUTHOR;
     }
 
-    function __destruct()
+    // function __destruct()
+    // {
+    //     echo "<br>Object Music $this->title telah destroy<br>";
+    // }
+}
+
+// inheritance
+class Kpop extends Music
+{
+    // overriding => ditimpa functionnya
+    function mentionUser(string $user)
     {
-        echo "Object Music $this->title telah destroy<br>";
+        echo "$user sedang mendengar lagu Kpop yang judulnya {$this->title} by {$this->singer}!<br><br>"; // harus jelas $thisya apa
     }
+}
+class Indonesia extends Music
+{
 }
